@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogDiseaseDealMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.DogDiseaseDeal" >
-    <id column="dogdiseasedealid" property="dogdiseasedealid" jdbcType="INTEGER" />
-    <result column="dealmethod" property="dealmethod" jdbcType="VARCHAR" />
-    <result column="dogcommondiseaseid" property="dogcommondiseaseid" jdbcType="INTEGER" />
+  <resultMap id="selectDogDiseaseDealMap" type="DogDiseaseDeal" >
+    <id column="dogdiseasedealid" property="dogdiseasedealid"/>
+    <result column="dealmethod" property="dealmethod"/>
+    <association property="dogcommondisease" javaType="DogCommonDisease">
+      <id column="dogcommondiseaseid" property="dogcommondiseaseid"/>
+      <result column="diseasename" property="diseasename"/>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    dogdiseasedealid, dealmethod, dogcommondiseaseid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_dogdiseasedeal
-    where dogdiseasedealid = #{dogdiseasedealid,jdbcType=INTEGER}
+ <!-- List<DogDiseaseDeal>selectAllDogDiseaseDeal();-->
+  <select id="selectAllDogDiseaseDeal" resultMap="selectDogDiseaseDealMap">
+      SELECT * from tbl_dogdiseasedeal deal,tbl_dogcommondisease disease
+      WHERE deal.dogcommondiseaseid=disease.dogcommondiseaseid
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_dogdiseasedeal
-    where dogdiseasedealid = #{dogdiseasedealid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.DogDiseaseDeal" >
-    insert into tbl_dogdiseasedeal (dogdiseasedealid, dealmethod, dogcommondiseaseid
-      )
-    values (#{dogdiseasedealid,jdbcType=INTEGER}, #{dealmethod,jdbcType=VARCHAR}, #{dogcommondiseaseid,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.DogDiseaseDeal" >
-    update tbl_dogdiseasedeal
-    set dealmethod = #{dealmethod,jdbcType=VARCHAR},
-      dogcommondiseaseid = #{dogcommondiseaseid,jdbcType=INTEGER}
-    where dogdiseasedealid = #{dogdiseasedealid,jdbcType=INTEGER}
-  </update>
+
+  <!--DogDiseaseDeal selectDogDiseaseDealById(Integer dogdiseasedealid);-->
+  <select id="selectDogDiseaseDealById" parameterType="Integer" resultMap="selectDogDiseaseDealMap">
+     SELECT * from tbl_dogdiseasedeal deal,tbl_dogcommondisease disease
+      WHERE deal.dogcommondiseaseid=disease.dogcommondiseaseid and deal.dogdiseasedealid=#{_parameter}
+  </select>
+
+  <!--String selectDogDiseaseDealByCommonDiseaseId(Integer dogcommondiseaseid);-->
+  <select id="selectDogDiseaseDealByCommonDiseaseId" resultType="String" parameterType="Integer">
+    SELECT dealmethod from tbl_dogdiseasedeal where dogcommondiseaseid=#{_parameter}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

@@ -1,34 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogDiseaseMapper" >
-<resultMap id="BaseResultMap" type="pluto.entity.DogDisease" >
-  <id column="dogdiseaseid" property="dogdiseaseid" jdbcType="INTEGER" />
-  <result column="petid" property="petid" jdbcType="INTEGER" />
-  <result column="dogcommondiseaseid" property="dogcommondiseaseid" jdbcType="INTEGER" />
-</resultMap>
-<sql id="Base_Column_List" >
-  dogdiseaseid, petid, dogcommondiseaseid
-</sql>
-<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-  select
-  <include refid="Base_Column_List" />
-  from tbl_dogdisease
-  where dogdiseaseid = #{dogdiseaseid,jdbcType=INTEGER}
-</select>
-<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-  delete from tbl_dogdisease
-  where dogdiseaseid = #{dogdiseaseid,jdbcType=INTEGER}
-</delete>
-<insert id="insert" parameterType="pluto.entity.DogDisease" >
-  insert into tbl_dogdisease (dogdiseaseid, petid, dogcommondiseaseid
-  )
-  values (#{dogdiseaseid,jdbcType=INTEGER}, #{petid,jdbcType=INTEGER}, #{dogcommondiseaseid,jdbcType=INTEGER}
-  )
-</insert>
-<update id="updateByPrimaryKey" parameterType="pluto.entity.DogDisease" >
-  update tbl_dogdisease
-  set petid = #{petid,jdbcType=INTEGER},
-  dogcommondiseaseid = #{dogcommondiseaseid,jdbcType=INTEGER}
-  where dogdiseaseid = #{dogdiseaseid,jdbcType=INTEGER}
-</update>
+  <resultMap id="DogDiseaseMap" type="DogDisease">
+    <id column="dogdiseaseid" property="dogdiseaseid"/>
+    <association property="pet" javaType="Pet">
+      <id column="petid" property="petid"/>
+      <result column="dogbirthday" property="dogbirthday"/>
+      <result column="dogname" property="dogname"/>
+      <association property="dogtype" javaType="DogType">
+        <id column="dogtypeid" property="dogtypeid"/>
+        <result column="dogtype" property="dogtype"/>
+      </association>
+      <association property="user" javaType="User">
+        <id column="userid" property="userid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="userbalance" property="userbalance"/>
+        <result column="userpicture" property="userpicture"/>
+        <result column="vip" property="vip"/>
+      </association>
+    </association>
+    <association property="dogcommondisease" javaType="DogCommonDisease">
+      <id column="dogcommondiseaseid" property="dogcommondiseaseid"/>
+      <result column="diseasename" property="diseasename"/>
+    </association>
+  </resultMap>
+
+  <!--List<DogDisease> selectAllDogDisease();-->
+  <select id="selectAllDogDisease" resultMap="DogDiseaseMap">
+     select * from tbl_dogdisease disease,tbl_dogcommondisease common,tbl_pet pet,tbl_dogtype type,tbl_user user
+      where disease.petid=pet.petid
+      and disease.dogcommondiseaseid=common.dogcommondiseaseid
+      and pet.dogtypeid=type.dogtypeid
+      and pet.userid=user.userid
+  </select>
+
+  <!--DogDisease selectDogDiseaseById(Integer dogdiseaseid);-->
+  <select id="selectDogDiseaseById" resultMap="DogDiseaseMap" parameterType="Integer">
+   select * from tbl_dogdisease disease,tbl_dogcommondisease common,tbl_pet pet,tbl_dogtype type,tbl_user user
+      where disease.petid=pet.petid
+      and disease.dogcommondiseaseid=common.dogcommondiseaseid
+      and pet.dogtypeid=type.dogtypeid
+      and pet.userid=user.userid
+      and disease.dogdiseaseid=#{_parameter}
+  </select>
+
+ <!-- List<DogCommonDisease> selectcommondieaseByPetId(Integer petid);-->
+  <select id="selectcommondieaseByPetId" parameterType="Integer" resultType="DogCommonDisease">
+     select common.* from tbl_dogdisease disease,tbl_dogcommondisease common
+      WHERE disease.dogcommondiseaseid=common.dogcommondiseaseid
+      and disease.petid=#{_parameter}
+  </select>
+  <resultMap id="PetMap" type="Pet">
+    <id column="petid" property="petid"/>
+    <result column="dogbirthday" property="dogbirthday"/>
+    <result column="dogname" property="dogname"/>
+    <association property="dogtype" javaType="DogType">
+      <id column="dogtypeid" property="dogtypeid"/>
+      <result column="dogtype" property="dogtype"/>
+    </association>
+    <association property="user" javaType="User">
+      <id column="userid" property="userid"/>
+      <result column="username" property="username"/>
+      <result column="password" property="password"/>
+      <result column="tel" property="tel"/>
+      <result column="userbalance" property="userbalance"/>
+      <result column="userpicture" property="userpicture"/>
+      <result column="vip" property="vip"/>
+    </association>
+  </resultMap>
+ <!-- List<Pet> selectPetBycommondiseaseId(Integer dogcommondiseaseid);-->
+  <select id="selectPetBycommondiseaseId" resultMap="PetMap" parameterType="Integer">
+     select pet.* from tbl_dogdisease disease,tbl_pet pet,tbl_dogtype type,tbl_user user
+      where disease.petid=pet.petid
+      and pet.dogtypeid=type.dogtypeid
+      and pet.userid=user.userid
+      and disease.dogcommondiseaseid=#{_parameter}
+  </select>
+
+ <!-- boolean insertDogDisease(DogDisease dogDisease);-->
+  <insert id="insertDogDisease" parameterType="DogDisease" useGeneratedKeys="true" keyProperty="dogdiseaseid">
+    INSERT INTO tbl_dogdisease(petid,dogcommondiseaseid) VALUES (#{pet.petid},#{dogcommondisease.dogcommondiseaseid})
+  </insert>
+  <!--boolean updateDogDisease(DogDisease dogDisease);-->
+  <update id="updateDogDisease" parameterType="DogDisease">
+    update tbl_dogdisease set petid=#{pet.petid},dogcommondiseaseid=#{dogcommondisease.dogcommondiseaseid}
+    where dogdiseaseid=#{dogdiseaseid}
+  </update>
+  <!--boolean deleteDogDiseaseById(Integer dogdiseaseid);-->
+  <delete id="deleteDogDiseaseById" parameterType="Integer">
+    delete from tbl_dogdisease where dogdiseaseid=#{_parameter}
+  </delete>
 </mapper>

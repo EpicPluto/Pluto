@@ -1,14 +1,25 @@
 package pluto.dao;
 
+import pluto.entity.DogCommonDisease;
 import pluto.entity.DogDisease;
+import pluto.entity.Pet;
+
+import java.util.List;
 
 public interface DogDiseaseMapper {
+    List<DogDisease> selectAllDogDisease();
 
-    int deleteByPrimaryKey(Integer dogdiseaseid);
+    DogDisease selectDogDiseaseById(Integer dogdiseaseid);
 
-    int insert(DogDisease record);
+    List<DogCommonDisease> selectcommondieaseByPetId(Integer petid);
 
-    DogDisease selectByPrimaryKey(Integer dogdiseaseid);
+    List<Pet> selectPetBycommondiseaseId(Integer dogcommondiseaseid);
 
-    int updateByPrimaryKey(DogDisease record);
+    boolean insertDogDisease(DogDisease dogDisease);
+
+    boolean updateDogDisease(DogDisease dogDisease);
+
+    boolean deleteDogDiseaseById(Integer dogdiseaseid);
+
+
 }

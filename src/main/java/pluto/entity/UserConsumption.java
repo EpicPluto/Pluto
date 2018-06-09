@@ -1,6 +1,5 @@
 package pluto.entity;
 
-import java.util.List;
 
 public class UserConsumption {
     private Integer userconsumptionid;
@@ -11,7 +10,40 @@ public class UserConsumption {
 
     private Double rechargeamount;
 
+    @Override
+    public String toString() {
+        return "UserConsumption{" +
+                "userconsumptionid=" + userconsumptionid +
+                ", consumptionamount=" + consumptionamount +
+                ", user=" + user +
+                ", rechargeamount=" + rechargeamount +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserConsumption that = (UserConsumption) o;
+
+        if (!userconsumptionid.equals(that.userconsumptionid)) return false;
+        if (!consumptionamount.equals(that.consumptionamount)) return false;
+        if (!user.equals(that.user)) return false;
+        return rechargeamount.equals(that.rechargeamount);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userconsumptionid.hashCode();
+        result = 31 * result + consumptionamount.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + rechargeamount.hashCode();
+        return result;
+    }
+
     public Integer getUserconsumptionid() {
+
         return userconsumptionid;
     }
 
@@ -43,22 +75,22 @@ public class UserConsumption {
         this.rechargeamount = rechargeamount;
     }
 
-    public UserConsumption() {
+    public UserConsumption(Double consumptionamount, User user, Double rechargeamount) {
+
+        this.consumptionamount = consumptionamount;
+        this.user = user;
+        this.rechargeamount = rechargeamount;
     }
+
     public UserConsumption(Integer userconsumptionid, Double consumptionamount, User user, Double rechargeamount) {
+
         this.userconsumptionid = userconsumptionid;
         this.consumptionamount = consumptionamount;
         this.user = user;
         this.rechargeamount = rechargeamount;
     }
 
-    @Override
-    public String toString() {
-        return "UserConsumption{" +
-                "userconsumptionid=" + userconsumptionid +
-                ", consumptionamount=" + consumptionamount +
-                ", user=" + user +
-                ", rechargeamount=" + rechargeamount +
-                '}';
+    public UserConsumption() {
+
     }
 }

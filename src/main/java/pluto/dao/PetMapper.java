@@ -2,13 +2,16 @@ package pluto.dao;
 
 import pluto.entity.Pet;
 
+import java.util.List;
+
 public interface PetMapper {
+    boolean insertPet(Pet pet);
 
-    int deleteByPrimaryKey(Integer petid);
+    boolean updatePet(Pet pet);
 
-    int insert(Pet record);
+    boolean deletePetByName(String dogname);
 
-    Pet selectByPrimaryKey(Integer petid);
+    List<Pet>selectAllPet();
 
-    int updateByPrimaryKey(Pet record);
+    Pet selectPetByDogNameAndUserId(String dogname,Integer userid);
 }

@@ -2,13 +2,11 @@ package pluto.dao;
 
 import pluto.entity.DogAge;
 
+import java.util.List;
+
 public interface DogAgeMapper {
 
-    int deleteByPrimaryKey(Integer dogeageid);
+    List<DogAge> selectAllDogAge();
+    String selectDogAgeById(Integer dogeageid);
 
-    int insert(DogAge record);
-
-    DogAge selectByPrimaryKey(Integer dogeageid);
-
-    int updateByPrimaryKey(DogAge record);
 }

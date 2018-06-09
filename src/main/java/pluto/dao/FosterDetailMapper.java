@@ -2,13 +2,20 @@ package pluto.dao;
 
 import pluto.entity.FosterDetail;
 
+import java.util.List;
+
 public interface FosterDetailMapper {
+    //按照fosterdetailid查询
+    FosterDetail selectFosterDetailById(Integer fosterdetailid);
+    //按照petid查询
+    List<FosterDetail> selectFosterDetailByPetId(Integer petid);
 
-    int deleteByPrimaryKey(Integer fosterdetailid);
+    boolean insertFosterDetail(FosterDetail fosterDetail);
 
-    int insert(FosterDetail record);
+    boolean updateFosterDetail(FosterDetail fosterDetail);
 
-    FosterDetail selectByPrimaryKey(Integer fosterdetailid);
+    boolean deleteFosterDetailById(Integer fosterdetailid);
 
-    int updateByPrimaryKey(FosterDetail record);
+    boolean deleteFosterDetailByPetId(Integer petid);
+
 }

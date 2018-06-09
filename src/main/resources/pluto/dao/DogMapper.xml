@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.Dog" >
-    <id column="dogid" property="dogid" jdbcType="INTEGER" />
-    <result column="dogname" property="dogname" jdbcType="VARCHAR" />
-    <result column="dogsizeid" property="dogsizeid" jdbcType="INTEGER" />
-    <result column="dogtypeid" property="dogtypeid" jdbcType="INTEGER" />
-    <result column="areaid" property="areaid" jdbcType="INTEGER" />
+  <resultMap id="DogMap" type="Dog" >
+    <id column="dogid" property="dogid"/>
+    <result column="dogname" property="dogname"/>
+    <association property="dogsize" javaType="DogSize">
+      <id column="dogsizeid" property="dogsizeid"/>
+      <result column="dogsize" property="dogsize"/>
+    </association>
+    <association property="dogtype" javaType="DogType">
+      <id column="dogtypeid" property="dogtypeid"/>
+      <result column="dogtype" property="dogtype"/>
+    </association>
+    <association property="country" javaType="Country">
+      <id column="countryid" property="countryid"/>
+      <result column="countryname" property="countryname"/>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    dogid, dogname, dogsizeid, dogtypeid, areaid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_dog
-    where dogid = #{dogid,jdbcType=INTEGER}
+
+  <!--List<Dog>selectAllDog();-->
+  <select id="selectAllDog" resultMap="DogMap">
+    select * from tbl_dog dog,tbl_dogsize size,tbl_dogtype type,tbl_country country
+    where dog.dogsizeid=size.dogsizeid
+    and dog.dogtypeid=type.dogtypeid
+    and dog.countryid=country.countryid
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_dog
-    where dogid = #{dogid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.Dog" >
-    insert into tbl_dog (dogid, dogname, dogsizeid, 
-      dogtypeid, areaid)
-    values (#{dogid,jdbcType=INTEGER}, #{dogname,jdbcType=VARCHAR}, #{dogsizeid,jdbcType=INTEGER}, 
-      #{dogtypeid,jdbcType=INTEGER}, #{areaid,jdbcType=INTEGER})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.Dog" >
-    update tbl_dog
-    set dogname = #{dogname,jdbcType=VARCHAR},
-      dogsizeid = #{dogsizeid,jdbcType=INTEGER},
-      dogtypeid = #{dogtypeid,jdbcType=INTEGER},
-      areaid = #{areaid,jdbcType=INTEGER}
-    where dogid = #{dogid,jdbcType=INTEGER}
-  </update>
+  <!--Dog selectDogByName(String dogname);-->
+  <select id="selectDogByName" resultMap="DogMap" parameterType="String">
+    select * from tbl_dog dog,tbl_dogsize size,tbl_dogtype type,tbl_country country
+    where dog.dogsizeid=size.dogsizeid
+    and dog.dogtypeid=type.dogtypeid
+    and dog.countryid=country.countryid
+    and dog.dogname=#{_parameter}
+  </select>
 </mapper>

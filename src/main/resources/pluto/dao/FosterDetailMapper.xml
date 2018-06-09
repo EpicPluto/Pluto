@@ -1,38 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.FosterDetailMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.FosterDetail" >
-    <id column="fosterdetailid" property="fosterdetailid" jdbcType="INTEGER" />
-    <result column="fosterday" property="fosterday" jdbcType="INTEGER" />
-    <result column="fostertotalprice" property="fostertotalprice" jdbcType="DOUBLE" />
-    <result column="doghousegradeid" property="doghousegradeid" jdbcType="INTEGER" />
-    <result column="petid" property="petid" jdbcType="INTEGER" />
+
+  <resultMap id="selectFosterDetailMap" type="FosterDetail">
+    <id column="fosterdetailid" property="fosterdetailid"/>
+    <result column="fosterday" property="fosterday"/>
+    <result column="fostertotalprice" property="fostertotalprice"/>
+    <association property="doghousegrade" javaType="DogHouseGrade">
+      <id column="doghousegradeid" property="doghousegradeid"/>
+      <result column="doghousegrade" property="doghousegrade"/>
+      <result column="doghousevipprice" property="doghousevipprice"/>
+      <result column="doghouseprice" property="doghouseprice"/>
+    </association>
+    <association property="pet" javaType="Pet">
+      <id column="petid" property="petid"/>
+      <result column="dogbirthday" property="dogbirthday"/>
+      <result column="dogname" property="dogname"/>
+      <association property="dogtype" javaType="DogType">
+        <id column="dogtypeid" property="dogtypeid"/>
+        <result column="dogtype" property="dogtype"/>
+      </association>
+      <association property="user" javaType="User">
+        <id column="userid" property="userid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="userbalance" property="userbalance"/>
+        <result column="userpicture" property="userpicture"/>
+        <result column="vip" property="vip"/>
+      </association>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    fosterdetailid, fosterday, fostertotalprice, doghousegradeid, petid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_fosterdetail
-    where fosterdetailid = #{fosterdetailid,jdbcType=INTEGER}
+
+  <!--//按照fosterdetailid查询
+  FosterDetail selectFosterDetailById(Integer fosterdetailid);-->
+  <select id="selectFosterDetailById" parameterType="Integer" resultMap="selectFosterDetailMap">
+    select * FROM  tbl_fosterdetail detail,tbl_doghousegrade grade,tbl_pet pet,tbl_dogtype type,tbl_user user
+    where detail.doghousegradeid=grade.doghousegradeid AND detail.petid=pet.petid AND pet.dogtypeid=type.dogtypeid
+    and pet.userid=user.userid and detail.fosterdetailid=#{_parameter}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_fosterdetail
-    where fosterdetailid = #{fosterdetailid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.FosterDetail" >
-    insert into tbl_fosterdetail (fosterdetailid, fosterday, fostertotalprice, 
-      doghousegradeid, petid)
-    values (#{fosterdetailid,jdbcType=INTEGER}, #{fosterday,jdbcType=INTEGER}, #{fostertotalprice,jdbcType=DOUBLE}, 
-      #{doghousegradeid,jdbcType=INTEGER}, #{petid,jdbcType=INTEGER})
+ <!-- //按照petid查询
+  List<FosterDetail> selectFosterDetailByPetId(Integer petid);-->
+  <select id="selectFosterDetailByPetId" parameterType="Integer" resultMap="selectFosterDetailMap">
+    select * FROM  tbl_fosterdetail detail,tbl_doghousegrade grade,tbl_pet pet,tbl_dogtype type,tbl_user user
+    where detail.doghousegradeid=grade.doghousegradeid AND detail.petid=pet.petid AND pet.dogtypeid=type.dogtypeid
+    and pet.userid=user.userid and detail.petid=#{_parameter}
+  </select>
+
+  <!--boolean insertFosterDetail(FosterDetail fosterDetail);-->
+  <insert id="insertFosterDetail" parameterType="FosterDetail" useGeneratedKeys="true" keyProperty="fosterdetailid">
+    insert into tbl_fosterdetail(fosterday,fostertotalprice,doghousegradeid,petid) VALUES(#{fosterday},#{fostertotalprice},#{doghousegrade.doghousegradeid},#{pet.petid})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.FosterDetail" >
-    update tbl_fosterdetail
-    set fosterday = #{fosterday,jdbcType=INTEGER},
-      fostertotalprice = #{fostertotalprice,jdbcType=DOUBLE},
-      doghousegradeid = #{doghousegradeid,jdbcType=INTEGER},
-      petid = #{petid,jdbcType=INTEGER}
-    where fosterdetailid = #{fosterdetailid,jdbcType=INTEGER}
+
+  <!--boolean updateFosterDetail(FosterDetail fosterDetail);-->
+  <update id="updateFosterDetail" parameterType="FosterDetail">
+    UPDATE   tbl_fosterdetail
+    set fosterday=#{fosterday},fostertotalprice=#{fostertotalprice},doghousegradeid=#{doghousegrade.doghousegradeid},petid=#{pet.petid}
+    where fosterdetailid = #{fosterdetailid}
   </update>
+
+  <!--boolean deleteFosterDetailById(Integer fosterdetailid);-->
+  <delete id="deleteFosterDetailById" parameterType="Integer">
+    delete  from tbl_fosterdetail WHERE fosterdetailid=#{_parameter}
+  </delete>
+  <!--boolean deleteFosterDetailByPetId(Integer petid);-->
+  <delete id="deleteFosterDetailByPetId" parameterType="Integer">
+    delete  from tbl_fosterdetail WHERE petid=#{_parameter}
+  </delete>
 </mapper>

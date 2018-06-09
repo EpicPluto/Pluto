@@ -1,7 +1,5 @@
 package pluto.dao;
 
-
-
 import java.util.List;
 
 public interface ActiveGradeMapper {

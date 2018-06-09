@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogHouseMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.DogHouse" >
-    <id column="doghouseid" property="doghouseid" jdbcType="INTEGER" />
-    <result column="doghousename" property="doghousename" jdbcType="VARCHAR" />
-    <result column="doghousegradeid" property="doghousegradeid" jdbcType="INTEGER" />
-    <result column="dogsizeid" property="dogsizeid" jdbcType="INTEGER" />
+
+  <resultMap id="selectHouseMap" type="DogHouse">
+    <id column="doghouseid" property="doghouseid"/>
+    <result column="doghousename" property="doghousename"/>
+    <association javaType="DogHouseGrade" property="dogHouseGrade">
+        <id column="doghousegradeid" property="doghousegradeid"/>
+        <result column="doghousegrade" property="doghousegrade"/>
+        <result column="doghousevipprice" property="doghousevipprice"/>
+        <result column="doghouseprice" property="doghouseprice"/>
+    </association>
+    <association property="dogSize" javaType="DogSize">
+        <id column="dogsizeid" property="dogsizeid"/>
+        <result column="dogsize" property="dogsize"/>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    doghouseid, doghousename, doghousegradeid, dogsizeid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_doghouse
-    where doghouseid = #{doghouseid,jdbcType=INTEGER}
+  <!--List<DogHouse> selectAllHouse();-->
+  <select id="selectAllHouse" resultMap="selectHouseMap">
+    select * from tbl_doghouse house,tbl_doghousegrade grade,tbl_dogsize size
+    where house.doghousegradeid=grade.doghousegradeid and house.dogsizeid=size.dogsizeid
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_doghouse
-    where doghouseid = #{doghouseid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.DogHouse" >
-    insert into tbl_doghouse (doghouseid, doghousename, doghousegradeid, 
-      dogsizeid)
-    values (#{doghouseid,jdbcType=INTEGER}, #{doghousename,jdbcType=VARCHAR}, #{doghousegradeid,jdbcType=INTEGER}, 
-      #{dogsizeid,jdbcType=INTEGER})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.DogHouse" >
-    update tbl_doghouse
-    set doghousename = #{doghousename,jdbcType=VARCHAR},
-      doghousegradeid = #{doghousegradeid,jdbcType=INTEGER},
-      dogsizeid = #{dogsizeid,jdbcType=INTEGER}
-    where doghouseid = #{doghouseid,jdbcType=INTEGER}
-  </update>
+
+ <!-- List<DogHouse>selectDogHouseNameByGrade(Integer doghousegradeid);-->
+
+  <select id="selectDogHouseNameByGrade" resultMap="selectHouseMap" parameterType="Integer">
+    select * from tbl_doghouse house,tbl_doghousegrade grade,tbl_dogsize size
+    where house.doghousegradeid=grade.doghousegradeid and house.dogsizeid=size.dogsizeid
+    and house.doghousegradeid=#{_parameter}
+  </select>
+  <!--List<DogHouse>selectDogHouseNameBySize(Integer dogsizeid);-->
+  <select id="selectDogHouseNameBySize" resultMap="selectHouseMap" parameterType="Integer">
+    select * from tbl_doghouse house,tbl_doghousegrade grade,tbl_dogsize size
+    where house.doghousegradeid=grade.doghousegradeid and house.dogsizeid=size.dogsizeid
+    and house.dogsizeid=#{_parameter}
+  </select>
+
+  <!--List<DogHouse>selectDogHouseNameByGradeAndSize(Integer doghousegradeid,Integer dogsizeid);-->
+  <select id="selectDogHouseNameByGradeAndSize" resultMap="selectHouseMap">
+    select * from tbl_doghouse house,tbl_doghousegrade grade,tbl_dogsize size
+    where house.doghousegradeid=grade.doghousegradeid and house.dogsizeid=size.dogsizeid
+    and house.doghousegradeid=#{param1} and house.dogsizeid=#{param2}
+  </select>
 </mapper>

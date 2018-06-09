@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.PetMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.Pet" >
-    <id column="petid" property="petid" jdbcType="INTEGER" />
-    <result column="dogtype" property="dogtype" jdbcType="VARCHAR" />
-    <result column="dogbirthday" property="dogbirthday" jdbcType="DATE" />
-    <result column="dogname" property="dogname" jdbcType="VARCHAR" />
-    <result column="userid" property="userid" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    petid, dogtype, dogbirthday, dogname, userid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_pet
-    where petid = #{petid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_pet
-    where petid = #{petid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.Pet" >
-    insert into tbl_pet (petid, dogtype, dogbirthday, 
-      dogname, userid)
-    values (#{petid,jdbcType=INTEGER}, #{dogtype,jdbcType=VARCHAR}, #{dogbirthday,jdbcType=DATE}, 
-      #{dogname,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER})
+
+
+  <!--boolean insertPet(Pet pet);-->
+  <insert id="insertPet" parameterType="Pet" useGeneratedKeys="true" keyProperty="petid">
+    insert INTO tbl_pet(dogtypeid,dogbirthday,dogname,userid)
+    VALUES(#{dogtype.dogtypeid},#{dogbirthday},#{dogname},#{user.userid})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.Pet" >
-    update tbl_pet
-    set dogtype = #{dogtype,jdbcType=VARCHAR},
-      dogbirthday = #{dogbirthday,jdbcType=DATE},
-      dogname = #{dogname,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=INTEGER}
-    where petid = #{petid,jdbcType=INTEGER}
+
+  <!--boolean updatePet(Pet pet);-->
+  <update id="updatePet" parameterType="Pet">
+    UPDATE tbl_pet
+    SET  dogtypeid=#{dogtype.dogtypeid},dogbirthday=#{dogbirthday},dogname=#{dogname}
+    WHERE petid=#{petid} and userid=#{user.userid}
   </update>
+
+ <!-- boolean deletePetByName(String dogname);-->
+  <delete id="deletePetByName" parameterType="String">
+    DELETE FROM tbl_pet
+    WHERE dogname=#{_parameter}
+  </delete>
+
+
+  <resultMap id="selectPetMap" type="Pet">
+    <id column="petid" property="petid"/>
+    <result column="dogbirthday" property="dogbirthday"/>
+    <result column="dogname" property="dogname"/>
+    <association property="dogtype" javaType="DogType">
+      <id column="dogtypeid" property="dogtypeid"/>
+      <result column="dogtype" property="dogtype"/>
+    </association>
+    <association property="user" javaType="User">
+      <id column="userid" property="userid"/>
+      <result column="username" property="username"/>
+      <result column="password" property="password"/>
+      <result column="tel" property="tel"/>
+      <result column="userbalance" property="userbalance"/>
+      <result column="userpicture" property="userpicture"/>
+      <result column="vip" property="vip"/>
+    </association>
+  </resultMap>
+
+ <!-- List<Pet>selectAllPet();-->
+  <select id="selectAllPet" resultMap="selectPetMap">
+    SELECT  * from tbl_pet pet,tbl_user user,tbl_dogtype type
+    WHERE pet.dogtypeid=type.dogtypeid AND pet.userid=user.userid
+  </select>
+
+  <!--Pet selectPetByDogName(String dogname);-->
+  <select id="selectPetByDogNameAndUserId" resultMap="selectPetMap">
+    SELECT  * from tbl_pet pet,tbl_user user,tbl_dogtype type
+    WHERE pet.dogtypeid=type.dogtypeid AND pet.userid=user.userid AND pet.dogname=#{param1} and pet.userid=#{param2}
+  </select>
+
 </mapper>

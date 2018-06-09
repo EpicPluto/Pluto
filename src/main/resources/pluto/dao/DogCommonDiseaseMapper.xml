@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogCommonDiseaseMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.DogCommonDisease" >
-    <id column="dogcommondiseaseid" property="dogcommondiseaseid" jdbcType="INTEGER" />
-    <result column="diseasename" property="diseasename" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    dogcommondiseaseid, diseasename
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_dogcommondisease
-    where dogcommondiseaseid = #{dogcommondiseaseid,jdbcType=INTEGER}
+  <!--List<DogCommonDisease> selectAllDogCommonDisease();-->
+  <select id="selectAllDogCommonDisease" resultType="DogCommonDisease">
+    SELECT * from tbl_dogcommondisease
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_dogcommondisease
-    where dogcommondiseaseid = #{dogcommondiseaseid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.DogCommonDisease" >
-    insert into tbl_dogcommondisease (dogcommondiseaseid, diseasename)
-    values (#{dogcommondiseaseid,jdbcType=INTEGER}, #{diseasename,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.DogCommonDisease" >
-    update tbl_dogcommondisease
-    set diseasename = #{diseasename,jdbcType=VARCHAR}
-    where dogcommondiseaseid = #{dogcommondiseaseid,jdbcType=INTEGER}
-  </update>
+ <!-- String selectDogCommonDiseaseById(Integer dogcommondiseaseid);-->
+  <select id="selectDogCommonDiseaseById" resultType="String" parameterType="Integer">
+    select diseasename from tbl_dogcommondisease
+    WHERE dogcommondiseaseid=#{_parameter}
+  </select>
 </mapper>

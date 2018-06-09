@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.DogHouseGradeMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.DogHouseGrade" >
-    <id column="doghousegradeid" property="doghousegradeid" jdbcType="INTEGER" />
-    <result column="doghousegrade" property="doghousegrade" jdbcType="VARCHAR" />
-    <result column="doghousevipprice" property="doghousevipprice" jdbcType="DOUBLE" />
-    <result column="doghouseprice" property="doghouseprice" jdbcType="DOUBLE" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    doghousegradeid, doghousegrade, doghousevipprice, doghouseprice
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_doghousegrade
-    where doghousegradeid = #{doghousegradeid,jdbcType=INTEGER}
+
+  <!--List<DogHouseGrade> selectAllDogHouseGrade();-->
+  <select id="selectAllDogHouseGrade" resultType="DogHouseGrade">
+    SELECT  * FROM  tbl_doghousegrade
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_doghousegrade
-    where doghousegradeid = #{doghousegradeid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.DogHouseGrade" >
-    insert into tbl_doghousegrade (doghousegradeid, doghousegrade, doghousevipprice, 
-      doghouseprice)
-    values (#{doghousegradeid,jdbcType=INTEGER}, #{doghousegrade,jdbcType=VARCHAR}, #{doghousevipprice,jdbcType=DOUBLE}, 
-      #{doghouseprice,jdbcType=DOUBLE})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.DogHouseGrade" >
-    update tbl_doghousegrade
-    set doghousegrade = #{doghousegrade,jdbcType=VARCHAR},
-      doghousevipprice = #{doghousevipprice,jdbcType=DOUBLE},
-      doghouseprice = #{doghouseprice,jdbcType=DOUBLE}
-    where doghousegradeid = #{doghousegradeid,jdbcType=INTEGER}
-  </update>
+
+ <!-- DogHouseGrade selectDogHouseGradeByName(String doghousegrade);-->
+  <select id="selectDogHouseGradeByName" resultType="DogHouseGrade" parameterType="String">
+    SELECT * FROM  tbl_doghousegrade
+    WHERE doghousegrade=#{_parameter}
+  </select>
+
 </mapper>

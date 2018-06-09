@@ -2,14 +2,8 @@ package pluto.dao;
 
 import pluto.entity.ActiveType;
 
+import java.util.List;
+
 public interface ActiveTypeMapper {
-
-    int deleteByPrimaryKey(Integer activetypeid);
-
-    int insert(ActiveType record);
-
-    ActiveType selectByPrimaryKey(Integer activetypeid);
-
-
-    int updateByPrimaryKey(ActiveType record);
+    List<String>selectActiveTypeName();
 }

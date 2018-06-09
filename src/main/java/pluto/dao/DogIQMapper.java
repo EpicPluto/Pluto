@@ -2,13 +2,10 @@ package pluto.dao;
 
 import pluto.entity.DogIQ;
 
+import java.util.List;
+
 public interface DogIQMapper {
 
-    int deleteByPrimaryKey(Integer dogiqid);
-
-    int insert(DogIQ record);
-
-    DogIQ selectByPrimaryKey(Integer dogiqid);
-
-    int updateByPrimaryKey(DogIQ record);
+    List<DogIQ>selectAllDogIQ();
+    String selectDogIQById(Integer dogiqid);
 }

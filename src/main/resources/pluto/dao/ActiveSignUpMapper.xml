@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.ActiveSignUpMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.ActiveSignUp" >
-    <id column="signupid" property="signupid" jdbcType="INTEGER" />
-    <result column="userid" property="userid" jdbcType="INTEGER" />
-    <result column="activedate" property="activedate" jdbcType="DATE" />
-    <result column="activetypeid" property="activetypeid" jdbcType="INTEGER" />
-    <result column="activegradeid" property="activegradeid" jdbcType="INTEGER" />
+  <!--List<ActiveSignUp> selectSignUpByUserId(int userId);-->
+  <resultMap id="selectSignUpMap" type="ActiveSignUp" >
+    <id column="signupid" property="signupid"/>
+    <result column="activedate" property="activedate" />
+    <association property="user" javaType="User">
+        <id column="userid" property="userid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="userbalance" property="userbalance"/>
+        <result column="userpicture" property="userpicture"/>
+        <result column="vip" property="vip"/>
+    </association>
+    <association property="activetype" javaType="ActiveType">
+      <id column="activetypeid" property="activetypeid"/>
+      <result column="activename" property="activename"/>
+    </association>
+    <association property="activegrade" javaType="ActiveGrade">
+      <id column="activegradeid" property="activegradeid"/>
+      <result column="activegrade" property="activegrade"/>
+      <result column="activeprice" property="activeprice"/>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    signupid, userid, activedate, activetypeid, activegradeid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_activesignup
-    where signupid = #{signupid,jdbcType=INTEGER}
+  <select id="selectSignUpByUserId" parameterType="Integer" resultMap="selectSignUpMap">
+    SELECT *
+    FROM tbl_activesignup a,tbl_activetype b,tbl_activegrade c,tbl_user d
+    WHERE a.userid=d.userid and a.activetypeid=b.activetypeid and a.activegradeid=c.activegradeid and a.userid=#{_parameter}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_activesignup
-    where signupid = #{signupid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.ActiveSignUp" >
-    insert into tbl_activesignup (signupid, userid, activedate, 
-      activetypeid, activegradeid)
-    values (#{signupid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{activedate,jdbcType=DATE}, 
-      #{activetypeid,jdbcType=INTEGER}, #{activegradeid,jdbcType=INTEGER})
+
+ <!-- List<ActiveSignUp>selectSignUpByActivedate(Date activedate);
+  //由于每个活动都有大中小型、故不写按等级查询方法-->
+  <select id="selectSignUpByActivedate" parameterType="Date" resultMap="selectSignUpMap">
+   SELECT *
+    FROM tbl_activesignup a,tbl_activetype b,tbl_activegrade c,tbl_user d
+    WHERE a.userid=d.userid and a.activetypeid=b.activetypeid and a.activegradeid=c.activegradeid and a.activedate=#{activedate}
+  </select>
+
+ <!-- boolean insertActiveSignUp(ActiveSignUp activeSignUp);-->
+  <insert id="insertActiveSignUp" parameterType="ActiveSignUp" useGeneratedKeys="true" keyProperty="signupid">
+    INSERT  into tbl_activesignup(userid,activedate,activetypeid,activegradeid)
+    VALUES (#{user.userid},#{activedate},#{activetype.activetypeid},#{activegrade.activegradeid})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.ActiveSignUp" >
-    update tbl_activesignup
-    set userid = #{userid,jdbcType=INTEGER},
-      activedate = #{activedate,jdbcType=DATE},
-      activetypeid = #{activetypeid,jdbcType=INTEGER},
-      activegradeid = #{activegradeid,jdbcType=INTEGER}
-    where signupid = #{signupid,jdbcType=INTEGER}
+ <!-- boolean updateActiveSignUp(ActiveSignUp activeSignUp);-->
+  <update id="updateActiveSignUp" parameterType="ActiveSignUp">
+    UPDATE tbl_activesignup
+    set activedate=#{activedate},activetypeid=#{activetype.activetypeid},activegradeid=#{activegrade.activegradeid}
+    WHERE userid=#{user.userid} and signupid=#{signupid}
   </update>
+ <!-- boolean deleteActiveSignUp(int userId);-->
+  <delete id="deleteActiveSignUp" parameterType="Integer">
+    DELETE  FROM  tbl_activesignup WHERE signupid=#{_parameter}
+  </delete>
+
+
 </mapper>

@@ -2,13 +2,11 @@ package pluto.dao;
 
 import pluto.entity.DogSize;
 
+
+import java.util.List;
+
 public interface DogSizeMapper {
 
-    int deleteByPrimaryKey(Integer dogsizeid);
-
-    int insert(DogSize record);
-
-    DogSize selectByPrimaryKey(Integer dogsizeid);
-
-    int updateByPrimaryKey(DogSize record);
+    List<DogSize> selectAllDogSize();
+    String selectDogSizeNameById(int dogsizeid);
 }

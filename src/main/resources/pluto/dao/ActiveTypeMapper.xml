@@ -1,30 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.ActiveTypeMapper" >
-  <resultMap id="BaseResultMap" type="pluto.entity.ActiveType" >
-    <id column="activetypeid" property="activetypeid" jdbcType="INTEGER" />
-    <result column="activename" property="activename" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    activetypeid, activename
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_activetype
-    where activetypeid = #{activetypeid,jdbcType=INTEGER}
+ <!-- List<ActiveType>selectActiveTypeName();-->
+  <select id="selectActiveTypeName" resultType="String">
+    SELECT  activename from tbl_activetype
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_activetype
-    where activetypeid = #{activetypeid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.ActiveType" >
-    insert into tbl_activetype (activetypeid, activename)
-    values (#{activetypeid,jdbcType=INTEGER}, #{activename,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.ActiveType" >
-    update tbl_activetype
-    set activename = #{activename,jdbcType=VARCHAR}
-    where activetypeid = #{activetypeid,jdbcType=INTEGER}
-  </update>
 </mapper>

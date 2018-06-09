@@ -7,37 +7,13 @@ public class DogWeight {
 
     private Double dogweightdiscount;
 
-    public Integer getDogweightid() {
-        return dogweightid;
-    }
-
-    public void setDogweightid(Integer dogweightid) {
-        this.dogweightid = dogweightid;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public Double getDogweightdiscount() {
-        return dogweightdiscount;
-    }
-
-    public void setDogweightdiscount(Double dogweightdiscount) {
-        this.dogweightdiscount = dogweightdiscount;
-    }
-
-    public DogWeight() {
-    }
-
-    public DogWeight(Integer dogweightid, Double weight, Double dogweightdiscount) {
-        this.dogweightid = dogweightid;
-        this.weight = weight;
-        this.dogweightdiscount = dogweightdiscount;
+    @Override
+    public String toString() {
+        return "DogWeight{" +
+                "dogweightid=" + dogweightid +
+                ", weight=" + weight +
+                ", dogweightdiscount=" + dogweightdiscount +
+                '}';
     }
 
     @Override
@@ -61,14 +37,45 @@ public class DogWeight {
         return result;
     }
 
+    public Integer getDogweightid() {
 
+        return dogweightid;
+    }
 
-    @Override
-    public String toString() {
-        return "DogWeight{" +
-                "dogweightid=" + dogweightid +
-                ", weight=" + weight +
-                ", dogweightdiscount=" + dogweightdiscount +
-                '}';
+    public void setDogweightid(Integer dogweightid) {
+        this.dogweightid = dogweightid;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getDogweightdiscount() {
+        return dogweightdiscount;
+    }
+
+    public void setDogweightdiscount(Double dogweightdiscount) {
+        this.dogweightdiscount = dogweightdiscount;
+    }
+
+    public DogWeight(Double weight, Double dogweightdiscount) {
+
+        this.weight = weight;
+        this.dogweightdiscount = dogweightdiscount;
+    }
+
+    public DogWeight(Integer dogweightid, Double weight, Double dogweightdiscount) {
+
+        this.dogweightid = dogweightid;
+        this.weight = weight;
+        this.dogweightdiscount = dogweightdiscount;
+    }
+
+    public DogWeight() {
+
     }
 }

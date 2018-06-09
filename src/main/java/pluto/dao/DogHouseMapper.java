@@ -2,13 +2,12 @@ package pluto.dao;
 
 import pluto.entity.DogHouse;
 
+import java.util.List;
+
+
 public interface DogHouseMapper {
-
-    int deleteByPrimaryKey(Integer doghouseid);
-
-    int insert(DogHouse record);
-
-    DogHouse selectByPrimaryKey(Integer doghouseid);
-
-    int updateByPrimaryKey(DogHouse record);
+    List<DogHouse> selectAllHouse();
+    List<DogHouse>selectDogHouseNameByGrade(Integer doghousegradeid);
+    List<DogHouse>selectDogHouseNameBySize(Integer dogsizeid);
+    List<DogHouse>selectDogHouseNameByGradeAndSize(Integer doghousegradeid,Integer dogsizeid);
 }

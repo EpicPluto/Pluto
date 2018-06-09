@@ -6,7 +6,39 @@ public class Country {
 
     private String countryname;
 
+    public Country(Integer countryid, String countryname) {
+        this.countryid = countryid;
+        this.countryname = countryname;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryid=" + countryid +
+                ", countryname='" + countryname + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Country country = (Country) o;
+
+        if (!countryid.equals(country.countryid)) return false;
+        return countryname.equals(country.countryname);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = countryid.hashCode();
+        result = 31 * result + countryname.hashCode();
+        return result;
+    }
+
     public Integer getCountryid() {
+
         return countryid;
     }
 
@@ -22,11 +54,13 @@ public class Country {
         this.countryname = countryname;
     }
 
-    public Country() {
+    public Country(String countryname) {
+
+
+        this.countryname = countryname;
     }
 
-    public Country(Integer countryid, String countryname) {
-        this.countryid = countryid;
-        this.countryname = countryname;
+    public Country() {
+
     }
 }

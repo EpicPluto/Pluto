@@ -1,14 +1,12 @@
 package pluto.dao;
-
 import pluto.entity.DogType;
+
+import java.util.List;
 
 public interface DogTypeMapper {
 
-    int deleteByPrimaryKey(Integer digtypeid);
+    List<DogType> selectAllDogType();
+    String selectDogTypeNameById(int dogtypeid);
 
-    int insert(DogType record);
 
-    DogType selectByPrimaryKey(Integer digtypeid);
-
-    int updateByPrimaryKey(DogType record);
 }
