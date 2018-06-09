@@ -1,20 +1,22 @@
 package pluto.entity;
 
+import java.util.List;
+
 public class UserConsumption {
-    private Integer consumptionid;
+    private Integer userconsumptionid;
 
     private Double consumptionamount;
 
-    private Integer userid;
+    private User  user;
 
     private Double rechargeamount;
 
-    public Integer getConsumptionid() {
-        return consumptionid;
+    public Integer getUserconsumptionid() {
+        return userconsumptionid;
     }
 
-    public void setConsumptionid(Integer consumptionid) {
-        this.consumptionid = consumptionid;
+    public void setUserconsumptionid(Integer userconsumptionid) {
+        this.userconsumptionid = userconsumptionid;
     }
 
     public Double getConsumptionamount() {
@@ -25,12 +27,12 @@ public class UserConsumption {
         this.consumptionamount = consumptionamount;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Double getRechargeamount() {
@@ -39,5 +41,24 @@ public class UserConsumption {
 
     public void setRechargeamount(Double rechargeamount) {
         this.rechargeamount = rechargeamount;
+    }
+
+    public UserConsumption() {
+    }
+    public UserConsumption(Integer userconsumptionid, Double consumptionamount, User user, Double rechargeamount) {
+        this.userconsumptionid = userconsumptionid;
+        this.consumptionamount = consumptionamount;
+        this.user = user;
+        this.rechargeamount = rechargeamount;
+    }
+
+    @Override
+    public String toString() {
+        return "UserConsumption{" +
+                "userconsumptionid=" + userconsumptionid +
+                ", consumptionamount=" + consumptionamount +
+                ", user=" + user +
+                ", rechargeamount=" + rechargeamount +
+                '}';
     }
 }

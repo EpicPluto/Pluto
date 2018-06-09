@@ -2,13 +2,13 @@ package pluto.dao;
 
 import pluto.entity.ServiceGrade;
 
+import java.util.List;
+
 public interface ServiceGradeMapper {
 
-    int deleteByPrimaryKey(Integer servicegradeid);
+   /*查询所有的服务等级*/
+   public List<ServiceGrade> selectAllServiceGrade();
 
-    int insert(ServiceGrade record);
-
-    ServiceGrade selectByPrimaryKey(Integer servicegradeid);
-
-    int updateByPrimaryKey(ServiceGrade record);
+   /*根据档次名字查询服务折扣*/
+   public ServiceGrade selectDiscountByServicegradename(String servicegradename);
 }

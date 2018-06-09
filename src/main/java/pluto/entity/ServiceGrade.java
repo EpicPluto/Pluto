@@ -3,11 +3,10 @@ package pluto.entity;
 public class ServiceGrade {
     private Integer servicegradeid;
 
-    private Double serviceprice;
+    private String servicegradename;
 
-    private Double dogweight;
+    private Double servicegradediscount;
 
-    private Double vipprice;
 
     public Integer getServicegradeid() {
         return servicegradeid;
@@ -17,27 +16,59 @@ public class ServiceGrade {
         this.servicegradeid = servicegradeid;
     }
 
-    public Double getServiceprice() {
-        return serviceprice;
+    public String getServicegradename() {
+        return servicegradename;
     }
 
-    public void setServiceprice(Double serviceprice) {
-        this.serviceprice = serviceprice;
+    public void setServicegradename(String servicegradename) {
+        this.servicegradename = servicegradename;
     }
 
-    public Double getDogweight() {
-        return dogweight;
+    public Double getServicegradediscount() {
+        return servicegradediscount;
     }
 
-    public void setDogweight(Double dogweight) {
-        this.dogweight = dogweight;
+    public void setServicegradediscount(Double servicegradediscount) {
+        this.servicegradediscount = servicegradediscount;
     }
 
-    public Double getVipprice() {
-        return vipprice;
+    public ServiceGrade() {
     }
 
-    public void setVipprice(Double vipprice) {
-        this.vipprice = vipprice;
+    public ServiceGrade(Integer servicegradeid, String servicegradename, Double servicegradediscount) {
+        this.servicegradeid = servicegradeid;
+        this.servicegradename = servicegradename;
+        this.servicegradediscount = servicegradediscount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceGrade that = (ServiceGrade) o;
+
+        if (servicegradeid != null ? !servicegradeid.equals(that.servicegradeid) : that.servicegradeid != null)
+            return false;
+        if (servicegradename != null ? !servicegradename.equals(that.servicegradename) : that.servicegradename != null)
+            return false;
+        return servicegradediscount != null ? servicegradediscount.equals(that.servicegradediscount) : that.servicegradediscount == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = servicegradeid != null ? servicegradeid.hashCode() : 0;
+        result = 31 * result + (servicegradename != null ? servicegradename.hashCode() : 0);
+        result = 31 * result + (servicegradediscount != null ? servicegradediscount.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceGrade{" +
+                "servicegradeid=" + servicegradeid +
+                ", servicegradename='" + servicegradename + '\'' +
+                ", servicegradediscount=" + servicegradediscount +
+                '}';
     }
 }

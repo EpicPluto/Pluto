@@ -4,27 +4,22 @@
   <resultMap id="BaseResultMap" type="pluto.entity.DogWeight" >
     <id column="digweightid" property="digweightid" jdbcType="INTEGER" />
     <result column="weight" property="weight" jdbcType="DOUBLE" />
+    <result column="dogweightdiscount" property="dogweightdiscount" jdbcType="DOUBLE"/>
   </resultMap>
-  <sql id="Base_Column_List" >
-    digweightid, weight
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_dogweight
-    where digweightid = #{digweightid,jdbcType=INTEGER}
+
+
+  <!-- /*查询所有狗狗重量*/
+    public List<DogWeight> selectAllDogWeight();-->
+
+  <select id="selectAllDogWeight" resultMap="BaseResultMap" >
+    select * from tbl_dogweight
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_dogweight
-    where digweightid = #{digweightid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.DogWeight" >
-    insert into tbl_dogweight (digweightid, weight)
-    values (#{digweightid,jdbcType=INTEGER}, #{weight,jdbcType=DOUBLE})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.DogWeight" >
-    update tbl_dogweight
-    set weight = #{weight,jdbcType=DOUBLE}
-    where digweightid = #{digweightid,jdbcType=INTEGER}
-  </update>
+
+  <!-- /*根据狗狗重量查询折扣*/
+    public Double selectDiscountByDogWeight(Double maxdogweight, Double mindogweight);
+-->
+  <select id="selectDiscountByDogWeight" resultMap="BaseResultMap">
+    select * from tbl_dogweight
+    where tbl_dogweight.weight>=#{param1} and tbl_dogweight.weight &lt; #{param2}
+  </select>
 </mapper>

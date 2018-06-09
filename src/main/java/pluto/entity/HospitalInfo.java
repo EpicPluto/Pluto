@@ -5,13 +5,13 @@ public class HospitalInfo {
 
     private String hospitalname;
 
-    private Integer hospitalcityid;
-
-    private Integer hospitaldistrictid;
-
-    private Integer hospitaldistreetid;
-
     private String hospitalintroduce;
+
+    private City city;
+
+    private District district;
+
+    private Street street;
 
     public Integer getHospitalid() {
         return hospitalid;
@@ -26,31 +26,7 @@ public class HospitalInfo {
     }
 
     public void setHospitalname(String hospitalname) {
-        this.hospitalname = hospitalname == null ? null : hospitalname.trim();
-    }
-
-    public Integer getHospitalcityid() {
-        return hospitalcityid;
-    }
-
-    public void setHospitalcityid(Integer hospitalcityid) {
-        this.hospitalcityid = hospitalcityid;
-    }
-
-    public Integer getHospitaldistrictid() {
-        return hospitaldistrictid;
-    }
-
-    public void setHospitaldistrictid(Integer hospitaldistrictid) {
-        this.hospitaldistrictid = hospitaldistrictid;
-    }
-
-    public Integer getHospitaldistreetid() {
-        return hospitaldistreetid;
-    }
-
-    public void setHospitaldistreetid(Integer hospitaldistreetid) {
-        this.hospitaldistreetid = hospitaldistreetid;
+        this.hospitalname = hospitalname;
     }
 
     public String getHospitalintroduce() {
@@ -58,6 +34,55 @@ public class HospitalInfo {
     }
 
     public void setHospitalintroduce(String hospitalintroduce) {
-        this.hospitalintroduce = hospitalintroduce == null ? null : hospitalintroduce.trim();
+        this.hospitalintroduce = hospitalintroduce;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
+    }
+
+    public Street getStreet() {
+        return street;
+    }
+
+    public void setStreet(Street street) {
+        this.street = street;
+    }
+
+    public HospitalInfo() {
+    }
+
+    public HospitalInfo(Integer hospitalid, String hospitalname, String hospitalintroduce, City city, District district, Street street) {
+        this.hospitalid = hospitalid;
+        this.hospitalname = hospitalname;
+        this.hospitalintroduce = hospitalintroduce;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+    }
+
+
+    @Override
+    public String toString() {
+        return "HospitalInfo{" +
+                "hospitalid=" + hospitalid +
+                ", hospitalname='" + hospitalname + '\'' +
+                ", hospitalintroduce='" + hospitalintroduce + '\'' +
+                ", city=" + city +
+                ", district=" + district +
+                ", street=" + street +
+                '}';
     }
 }

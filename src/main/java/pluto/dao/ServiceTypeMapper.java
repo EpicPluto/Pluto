@@ -1,14 +1,16 @@
 package pluto.dao;
 
+import org.apache.ibatis.annotations.Param;
 import pluto.entity.ServiceType;
+
+import java.util.List;
 
 public interface ServiceTypeMapper {
 
-    int deleteByPrimaryKey(Integer servicetypeid);
+    /*查询所有的服务类型*/
+    public List<ServiceType> selectAllServiceType();
 
-    int insert(ServiceType record);
+    /*根据服务名字查询服务类型*/
+    public ServiceType selectServiceTypeByServiceName(@Param("servicename") String servicename);
 
-    ServiceType selectByPrimaryKey(Integer servicetypeid);
-
-    int updateByPrimaryKey(ServiceType record);
 }

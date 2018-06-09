@@ -5,26 +5,11 @@
     <id column="countryid" property="countryid" jdbcType="INTEGER" />
     <result column="counryname" property="counryname" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    countryid, counryname
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_country
-    where countryid = #{countryid,jdbcType=INTEGER}
+
+  <!-- /*根据国家名查国家id*/
+    public Country selectCountryByCountryName(String countryname);-->
+  <select id="selectCountryByCountryName" resultMap="BaseResultMap" parameterType="String" >
+    select * from tbl_country where tbl_country.countryname=#{countryname}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_country
-    where countryid = #{countryid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.Country" >
-    insert into tbl_country (countryid, counryname)
-    values (#{countryid,jdbcType=INTEGER}, #{counryname,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.Country" >
-    update tbl_country
-    set counryname = #{counryname,jdbcType=VARCHAR}
-    where countryid = #{countryid,jdbcType=INTEGER}
-  </update>
+
 </mapper>

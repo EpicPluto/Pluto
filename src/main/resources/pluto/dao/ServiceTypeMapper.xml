@@ -5,30 +5,21 @@
     <id column="servicetypeid" property="servicetypeid" jdbcType="INTEGER" />
     <result column="serviceinfo" property="serviceinfo" jdbcType="CHAR" />
     <result column="servicename" property="servicename" jdbcType="VARCHAR" />
+    <result column="nowprice" property="nowprice" jdbcType="DOUBLE" />
+    <result column="vipprice" property="vipprice" jdbcType="DOUBLE" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    servicetypeid, serviceinfo, servicename
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_servicetype
-    where servicetypeid = #{servicetypeid,jdbcType=INTEGER}
+
+  <!-- /*查询所有的服务类型*/
+    public List<ServiceType> selectAllServiceType();-->
+  <select id="selectAllServiceType" resultMap="BaseResultMap">
+    select * from tbl_servicetype
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_servicetype
-    where servicetypeid = #{servicetypeid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.ServiceType" >
-    insert into tbl_servicetype (servicetypeid, serviceinfo, servicename
-      )
-    values (#{servicetypeid,jdbcType=INTEGER}, #{serviceinfo,jdbcType=CHAR}, #{servicename,jdbcType=VARCHAR}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.ServiceType" >
-    update tbl_servicetype
-    set serviceinfo = #{serviceinfo,jdbcType=CHAR},
-      servicename = #{servicename,jdbcType=VARCHAR}
-    where servicetypeid = #{servicetypeid,jdbcType=INTEGER}
-  </update>
+
+
+    <!--/*根据服务名字查询服务类型*/
+    public ServiceType selectServiceTypeByServiceName(@Param("servicename") String servicename);
+  -->
+  <select id="selectServiceTypeByServiceName" parameterType="String" resultMap="BaseResultMap">
+    select * from tbl_servicetype where tbl_servicetype.servicename=#{servicename}
+  </select>
 </mapper>

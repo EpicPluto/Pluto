@@ -5,26 +5,25 @@
     <id column="provinceid" property="provinceid" jdbcType="INTEGER" />
     <result column="provincename" property="provincename" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    provinceid, provincename
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_province
-    where provinceid = #{provinceid,jdbcType=INTEGER}
+
+  <!--/*根据省名查省id*/
+    public Province selectProvinceByProvinceName(@Param(" provincename") String provincename);-->
+  <select id="selectProvinceByProvinceName" resultMap="BaseResultMap" parameterType="String">
+     select * from tbl_province where tbl_province.provincename=#{provincename}
   </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_province
-    where provinceid = #{provinceid,jdbcType=INTEGER}
+
   </delete>
   <insert id="insert" parameterType="pluto.entity.Province" >
-    insert into tbl_province (provinceid, provincename)
-    values (#{provinceid,jdbcType=INTEGER}, #{provincename,jdbcType=VARCHAR})
+
   </insert>
   <update id="updateByPrimaryKey" parameterType="pluto.entity.Province" >
-    update tbl_province
-    set provincename = #{provincename,jdbcType=VARCHAR}
-    where provinceid = #{provinceid,jdbcType=INTEGER}
+
   </update>
 </mapper>

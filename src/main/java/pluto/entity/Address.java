@@ -3,17 +3,17 @@ package pluto.entity;
 public class Address {
     private Integer addressid;
 
-    private Integer countryid;
+    private Country country;
 
-    private Integer provinceid;
+    private Province province;
 
-    private Integer cityid;
+    private City city;
 
-    private Integer districtid;
+    private District district;
 
-    private Integer streetid;
+    private Street street;
 
-    private Integer userid;
+    private User user;
 
     public Integer getAddressid() {
         return addressid;
@@ -23,51 +23,74 @@ public class Address {
         this.addressid = addressid;
     }
 
-    public Integer getCountryid() {
-        return countryid;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryid(Integer countryid) {
-        this.countryid = countryid;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public Integer getProvinceid() {
-        return provinceid;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceid(Integer provinceid) {
-        this.provinceid = provinceid;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
-    public Integer getCityid() {
-        return cityid;
+    public City getCity() {
+        return city;
     }
 
-    public void setCityid(Integer cityid) {
-        this.cityid = cityid;
+    public void setCity(City city) {
+        this.city = city;
     }
 
-    public Integer getDistrictid() {
-        return districtid;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistrictid(Integer districtid) {
-        this.districtid = districtid;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
-    public Integer getStreetid() {
-        return streetid;
+    public Street getStreet() {
+        return street;
     }
 
-    public void setStreetid(Integer streetid) {
-        this.streetid = streetid;
+    public void setStreet(Street street) {
+        this.street = street;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Address() {
+
+    }
+
+    public Address(Integer addressid, Country country, Province province, City city, District district, Street street, User user) {
+        this.addressid = addressid;
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.user = user;
+    }
+
+    public Address(Country country, Province province, City city, District district, Street street, User user) {
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.user = user;
     }
 }

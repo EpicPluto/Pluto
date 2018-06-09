@@ -5,26 +5,11 @@
     <id column="cityid" property="cityid" jdbcType="INTEGER" />
     <result column="cityname" property="cityname" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    cityid, cityname
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_city
-    where cityid = #{cityid,jdbcType=INTEGER}
+
+  <!-- /*根据市名查市id*/
+    public City selectCityByCityName(@Param("cityname")String cityname);-->
+  <select id="selectCityByCityName" resultMap="BaseResultMap" parameterType="String">
+    select tbl_city.cityid from tbl_city where tbl_city.cityname=#{cityname}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_city
-    where cityid = #{cityid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.City" >
-    insert into tbl_city (cityid, cityname)
-    values (#{cityid,jdbcType=INTEGER}, #{cityname,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.City" >
-    update tbl_city
-    set cityname = #{cityname,jdbcType=VARCHAR}
-    where cityid = #{cityid,jdbcType=INTEGER}
-  </update>
+
 </mapper>

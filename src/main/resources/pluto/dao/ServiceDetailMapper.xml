@@ -5,34 +5,82 @@
     <id column="servicedetailid" property="servicedetailid" jdbcType="INTEGER" />
     <result column="servicecount" property="servicecount" jdbcType="INTEGER" />
     <result column="oneservicecountprice" property="oneservicecountprice" jdbcType="DOUBLE" />
-    <result column="orderid" property="orderid" jdbcType="INTEGER" />
-    <result column="servicetypeid" property="servicetypeid" jdbcType="INTEGER" />
+
+    <association property="servicegrade" javaType="Servicegrade">
+      <id column="servicegradeid" property="servicegradeid"></id>
+      <result column="servicegradename" property="servicegradename"></result>
+      <result column="servicegradediscount" property="servicegradediscount"></result>
+    </association>
+
+    <association property="servicetype" javaType="ServiceType">
+      <id column="servicetypeid" property="servicetypeid"></id>
+      <result column="serviceinfo" property="serviceinfo"></result>
+      <result column="servicename" property="servicename"></result>
+      <result column="nowprice" property="nowprice"></result>
+      <result column="vipprice" property="vipprice"></result>
+    </association>
+
+    <association property="dogweight" javaType="Dogweight">
+      <id column="dogweightid" property="dogweightid"></id>
+      <result column="weight" property="weight"></result>
+      <result column="dogweightdiscount" property="dogweightdiscount"></result>
+    </association>
+
+    <association property="order" javaType="Order">
+      <id column="orderid" property="orderid"></id>
+      <result column="orderdate" property="orderdate"></result>
+      <result column="totalprice" property="totalprice"></result>
+      <result column="orderstatus" property="orderstatus"></result>
+      <association property="user" javaType="User">
+        <id column="userid" property="userid"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="tel" property="tel"></result>
+        <result column="userbalance" property="userbalance"></result>
+      </association>
+      <association property="userconsumption" javaType="UserConsumption">
+        <id column="userconsumptionid" property="userconsumptionid"></id>
+        <result column="consumptionamount" property="consumptionamount"></result>
+      </association>
+      <association property="payway" javaType="PayWay">
+        <id column="paywayid" property="paywayid"></id>
+        <result column="paywayname" property="paywayname"></result>
+      </association>
+    </association>
+
   </resultMap>
-  <sql id="Base_Column_List" >
-    servicedetailid, servicecount, oneservicecountprice, orderid, servicetypeid
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_servicedetail
-    where servicedetailid = #{servicedetailid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_servicedetail
-    where servicedetailid = #{servicedetailid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.ServiceDetail" >
-    insert into tbl_servicedetail (servicedetailid, servicecount, oneservicecountprice, 
-      orderid, servicetypeid)
-    values (#{servicedetailid,jdbcType=INTEGER}, #{servicecount,jdbcType=INTEGER}, #{oneservicecountprice,jdbcType=DOUBLE}, 
-      #{orderid,jdbcType=INTEGER}, #{servicetypeid,jdbcType=INTEGER})
+
+  <!-- /*插入服务明细*/
+    public boolean insertServiceDetail();-->
+  <insert id="insertServiceDetail" parameterType="ServiceDetail" useGeneratedKeys="true" keyProperty="servicedetailid">
+    insert into tbl_servicedetail(servicecount,oneservicecountprice,orderid,servicetypeid,servicegradeid,dogweightid)
+        values(#{servicedetail.servicecount},#{servicedetail.oneservicecountprice},
+                #{servicedetail.order.orderid},#{servicedetail.servicetype.servicetypeid},
+                #{servicedetail.servicegrade.servicegradeid},#{servicedetail.dogweight.dogweightid})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.ServiceDetail" >
-    update tbl_servicedetail
-    set servicecount = #{servicecount,jdbcType=INTEGER},
-      oneservicecountprice = #{oneservicecountprice,jdbcType=DOUBLE},
-      orderid = #{orderid,jdbcType=INTEGER},
-      servicetypeid = #{servicetypeid,jdbcType=INTEGER}
-    where servicedetailid = #{servicedetailid,jdbcType=INTEGER}
+  <!--/*查询服务明细根据订单id查询*/
+  public List<ServiceDetail> selectServiceDetailByOrderId();-->
+  <select id="selectServiceDetailByOrderId" parameterType="Integer" resultMap="BaseResultMap">
+    select * from tbl_servicedetail,tbl_order,tbl_servicetype,tbl_servicegrade,tbl_dogweight where tbl_servicedetail.orderid=#{param}
+  </select>
+  <!--/*查询服务明细根据服务明细id*/
+  public ServiceDetail selectServiceDetailByServiceDetailId();-->
+  <select id="selectServiceDetailByServiceDetailId" resultMap="BaseResultMap" parameterType="Integer">
+    select * from tbl_servicedetail,tbl_order,tbl_servicetype,tbl_servicegrade,tbl_dogweight where tbl_servicedetail.servicedetailid=#{param}
+  </select>
+  <!--/*修改服务明细*/
+  public boolean updateServiceDetail(@Param("servicedetail") ServiceDetail servicedetail);-->
+  <update id="updateServiceDetail" parameterType="Integer">
+    update tbl_servicedetail set tbl_servicedetail.servicecount=#{servicedetail.servicecount}
   </update>
+  <!--/*删除服务明细根据服务明细id*/
+  public boolean deleteServiceDetailByServiceDetailId();-->
+  <delete id="deleteServiceDetailByServiceDetailId" parameterType="Integer">
+    delete from tbl_servicedetail where tbl_servicedetail.servicedetailid=#{param}
+  </delete>
+  <!--/*删除服务明细根据订单id*/
+  public boolean deleteServiceDetailByOrderId();-->
+  <delete id="deleteServiceDetailByOrderId" parameterType="Integer">
+    delete from tbl_servicedetail where tbl_servicedetail.orderid=#{param}
+  </delete>
 </mapper>

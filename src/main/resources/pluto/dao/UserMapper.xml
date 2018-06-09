@@ -7,54 +7,46 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
     <result column="userbalance" property="userbalance" jdbcType="DOUBLE" />
-    <result column="vip" property="vip" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="pluto.entity.User" extends="BaseResultMap" >
     <result column="userpicture" property="userpicture" jdbcType="LONGVARBINARY" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    userid, username, password, tel, userbalance, vip
-  </sql>
-  <sql id="Blob_Column_List" >
-    userpicture
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from tbl_user
-    where userid = #{userid,jdbcType=INTEGER}
+
+<!--  /*根据用户id查询用户*/
+    public User selectByUserId(Integer userid);-->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+      select * from tbl_user where tbl_user.userid=#{param}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_user
-    where userid = #{userid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.User" >
-    insert into tbl_user (userid, username, password, 
-      tel, userbalance, vip, 
-      userpicture)
-    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{userbalance,jdbcType=DOUBLE}, #{vip,jdbcType=VARCHAR}, 
-      #{userpicture,jdbcType=LONGVARBINARY})
+
+  <!--/*查看用户是否是vip*/
+    public boolean checkUserVip(Integer userid);-->
+  <select id="checkUserVip" resultType="String" parameterType="Integer">
+     select tbl_user.vip from tbl_user where tbl_user.userid = #{param}
+  </select>
+
+  <!--public boolean insertUser(User user);-->
+  <insert id="insertUser" parameterType="pluto.entity.User" useGeneratedKeys="true" keyProperty="userid" >
+    insert into tbl_user(username,password,tel) value(#{username},#{#password},#{tel})
   </insert>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pluto.entity.User" >
-    update tbl_user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      tel = #{tel,jdbcType=VARCHAR},
-      userbalance = #{userbalance,jdbcType=DOUBLE},
-      vip = #{vip,jdbcType=VARCHAR},
-      userpicture = #{userpicture,jdbcType=LONGVARBINARY}
-    where userid = #{userid,jdbcType=INTEGER}
+
+
+
+  <!--/*用户修改信息*/
+    public boolean updateUserinfo(User user);-->
+  <update id="updateUserinfo" parameterType="pluto.entity.User" >
+      update tbl_user set tbl_user.userid=#{user.userid},
+      tbl_user.username=#{user.username},
+      tbl_user.password=#{user.password},
+      tbl_user.tel=#{user.tel}
+      where tbl_user.userid=#{user.userid}
   </update>
+
+
   <update id="updateByPrimaryKey" parameterType="pluto.entity.User" >
-    update tbl_user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      tel = #{tel,jdbcType=VARCHAR},
-      userbalance = #{userbalance,jdbcType=DOUBLE},
-      vip = #{vip,jdbcType=VARCHAR}
-    where userid = #{userid,jdbcType=INTEGER}
+
   </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+  </delete>
 </mapper>

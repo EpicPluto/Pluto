@@ -2,35 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pluto.dao.UserConsumptionMapper" >
   <resultMap id="BaseResultMap" type="pluto.entity.UserConsumption" >
-    <id column="consumptionid" property="consumptionid" jdbcType="INTEGER" />
+    <id column="userconsumptionid" property="userconsumptionid" jdbcType="INTEGER" />
     <result column="consumptionamount" property="consumptionamount" jdbcType="DOUBLE" />
-    <result column="userid" property="userid" jdbcType="INTEGER" />
     <result column="rechargeamount" property="rechargeamount" jdbcType="DOUBLE" />
+    <association property="user" javaType="User">
+      <id column="userid" property="userid"></id>
+      <result column="username" property="username"></result>
+      <result column="password" property="password"></result>
+      <result column="tel" property="tel"></result>
+      <result column="userbalance" property="userbalance"></result>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    consumptionid, consumptionamount, userid, rechargeamount
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_userconsumption
-    where consumptionid = #{consumptionid,jdbcType=INTEGER}
+<!-- /*查所有的消费记录根据用户id*/
+    public List<UserConsumption> selectAllUserConsumption(Integer userid);-->
+  <select id="selectAllUserConsumption" parameterType="Integer" resultMap="BaseResultMap">
+    select * from tbl_userconsumption,tbl_user where tbl_userconsumption.userid=#{param}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_userconsumption
-    where consumptionid = #{consumptionid,jdbcType=INTEGER}
+
   </delete>
   <insert id="insert" parameterType="pluto.entity.UserConsumption" >
-    insert into tbl_userconsumption (consumptionid, consumptionamount, 
-      userid, rechargeamount)
-    values (#{consumptionid,jdbcType=INTEGER}, #{consumptionamount,jdbcType=DOUBLE}, 
-      #{userid,jdbcType=INTEGER}, #{rechargeamount,jdbcType=DOUBLE})
+
   </insert>
   <update id="updateByPrimaryKey" parameterType="pluto.entity.UserConsumption" >
-    update tbl_userconsumption
-    set consumptionamount = #{consumptionamount,jdbcType=DOUBLE},
-      userid = #{userid,jdbcType=INTEGER},
-      rechargeamount = #{rechargeamount,jdbcType=DOUBLE}
-    where consumptionid = #{consumptionid,jdbcType=INTEGER}
+
   </update>
 </mapper>

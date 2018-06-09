@@ -4,40 +4,33 @@
   <resultMap id="BaseResultMap" type="pluto.entity.HospitalInfo" >
     <id column="hospitalid" property="hospitalid" jdbcType="INTEGER" />
     <result column="hospitalname" property="hospitalname" jdbcType="VARCHAR" />
-    <result column="hospitalcityid" property="hospitalcityid" jdbcType="INTEGER" />
-    <result column="hospitaldistrictid" property="hospitaldistrictid" jdbcType="INTEGER" />
-    <result column="hospitaldistreetid" property="hospitaldistreetid" jdbcType="INTEGER" />
-    <result column="hospitalintroduce" property="hospitalintroduce" jdbcType="VARCHAR" />
+    <result column="hospitalintroduce" property="hospitalintroduce" jdbcType="VARCHAR"/>
+    <association property="city" javaType="City">
+      <id column="cityid" property="cityname"></id>
+      <result column="cityname" property="cityname"></result>
+    </association>
+    <association property="district" javaType="District">
+      <id column="districtid" property="districtid"></id>
+      <result column="districtname" property="districtname"></result>
+    </association>
+    <association property="street" javaType="Street">
+      <id column="streetid" property="streetid"></id>
+      <result column="streetname" property="streetname"></result>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    hospitalid, hospitalname, hospitalcityid, hospitaldistrictid, hospitaldistreetid, 
-    hospitalintroduce
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_hospitalinfo
-    where hospitalid = #{hospitalid,jdbcType=INTEGER}
+
+  <!--/*根据用户的cityid来插叙医院*/
+    public List<HospitalInfo> selectHospitalInfoByUserCityId(Integer cityid);-->
+    <select id="selectHospitalInfoByUserCityId" resultMap="BaseResultMap" parameterType="Integer">
+      select * from tbl_hospitalinfo,tbl_city,tbl_district,tbl_street
+      where tbl_hospitalinfo.hospitalcityid=#{cityid}
+    </select>
+   <!-- /*根据医院名查询医院*/
+    public HospitalInfo selectHospitalInfoByHostipalName(String hospitalname);-->
+  <select id="selectHospitalInfoByHostipalName" resultMap="BaseResultMap" parameterType="String">
+   select * from tbl_hospitalinfo,tbl_city,tbl_district,tbl_street
+   where tbl_hospitalinfo.hospitalname=#{hospitalname}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_hospitalinfo
-    where hospitalid = #{hospitalid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.HospitalInfo" >
-    insert into tbl_hospitalinfo (hospitalid, hospitalname, hospitalcityid, 
-      hospitaldistrictid, hospitaldistreetid, 
-      hospitalintroduce)
-    values (#{hospitalid,jdbcType=INTEGER}, #{hospitalname,jdbcType=VARCHAR}, #{hospitalcityid,jdbcType=INTEGER}, 
-      #{hospitaldistrictid,jdbcType=INTEGER}, #{hospitaldistreetid,jdbcType=INTEGER}, 
-      #{hospitalintroduce,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.HospitalInfo" >
-    update tbl_hospitalinfo
-    set hospitalname = #{hospitalname,jdbcType=VARCHAR},
-      hospitalcityid = #{hospitalcityid,jdbcType=INTEGER},
-      hospitaldistrictid = #{hospitaldistrictid,jdbcType=INTEGER},
-      hospitaldistreetid = #{hospitaldistreetid,jdbcType=INTEGER},
-      hospitalintroduce = #{hospitalintroduce,jdbcType=VARCHAR}
-    where hospitalid = #{hospitalid,jdbcType=INTEGER}
-  </update>
+
+
 </mapper>

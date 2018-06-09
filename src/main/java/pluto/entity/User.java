@@ -70,4 +70,25 @@ public class User {
     public void setUserpicture(byte[] userpicture) {
         this.userpicture = userpicture;
     }
+
+    public User(String username, String password, String tel) {
+        this.username = username;
+        this.password = password;
+        this.tel = tel;
+    }
+
+    public User(Double userbalance) {
+        this.userbalance = userbalance;
+    }
+
+    public User(Integer userid, String username, String password, String tel, Double userbalance) {
+        this.userid = userid;
+        this.username = username;
+        this.password = password;
+        this.tel = tel;
+        this.userbalance = userbalance;
+    }
+
+    public User() {
+    }
 }

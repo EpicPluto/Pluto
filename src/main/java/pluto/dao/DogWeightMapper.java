@@ -1,14 +1,16 @@
 package pluto.dao;
 
+import org.apache.ibatis.annotations.Param;
 import pluto.entity.DogWeight;
+
+import java.util.List;
 
 public interface DogWeightMapper {
 
-    int deleteByPrimaryKey(Integer digweightid);
+    /*查询所有狗狗重量*/
+    public List<DogWeight> selectAllDogWeight();
 
-    int insert(DogWeight record);
+    /*根据狗狗重量查询折扣*/
+    public DogWeight selectDiscountByDogWeight( Integer maxdogweight,Integer mindogweight);
 
-    DogWeight selectByPrimaryKey(Integer digweightid);
-
-    int updateByPrimaryKey(DogWeight record);
 }

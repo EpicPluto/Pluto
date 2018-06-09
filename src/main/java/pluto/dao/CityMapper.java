@@ -1,5 +1,6 @@
 package pluto.dao;
 
+import org.apache.ibatis.annotations.Param;
 import pluto.entity.City;
 
 public interface CityMapper {
@@ -10,6 +11,8 @@ public interface CityMapper {
 
     City selectByPrimaryKey(Integer cityid);
 
-
     int updateByPrimaryKey(City record);
+
+    /*根据市名查市id*/
+    public City selectCityByCityName(@Param("cityname") String cityname);
 }

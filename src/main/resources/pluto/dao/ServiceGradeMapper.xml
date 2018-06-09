@@ -3,34 +3,20 @@
 <mapper namespace="pluto.dao.ServiceGradeMapper" >
   <resultMap id="BaseResultMap" type="pluto.entity.ServiceGrade" >
     <id column="servicegradeid" property="servicegradeid" jdbcType="INTEGER" />
-    <result column="serviceprice" property="serviceprice" jdbcType="DOUBLE" />
-    <result column="dogweight" property="dogweight" jdbcType="DOUBLE" />
-    <result column="vipprice" property="vipprice" jdbcType="DOUBLE" />
+    <result column="servicename" property="servicename" jdbcType="VARCHAR" />
+    <result column="servicegradediscount" property="servicegradediscount" jdbcType="DOUBLE" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    servicegradeid, serviceprice, dogweight, vipprice
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_servicegrade
-    where servicegradeid = #{servicegradeid,jdbcType=INTEGER}
+
+  <!--   /*查询所有的服务等级*/
+   public List<ServiceGrade> selectAllServiceGrade();-->
+  <select id="selectAllServiceGrade" resultMap="BaseResultMap" >
+      select * from tbl_servicegrade
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_servicegrade
-    where servicegradeid = #{servicegradeid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.ServiceGrade" >
-    insert into tbl_servicegrade (servicegradeid, serviceprice, dogweight, 
-      vipprice)
-    values (#{servicegradeid,jdbcType=INTEGER}, #{serviceprice,jdbcType=DOUBLE}, #{dogweight,jdbcType=DOUBLE}, 
-      #{vipprice,jdbcType=DOUBLE})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.ServiceGrade" >
-    update tbl_servicegrade
-    set serviceprice = #{serviceprice,jdbcType=DOUBLE},
-      dogweight = #{dogweight,jdbcType=DOUBLE},
-      vipprice = #{vipprice,jdbcType=DOUBLE}
-    where servicegradeid = #{servicegradeid,jdbcType=INTEGER}
-  </update>
+
+  <!-- /*根据档次名字查询服务折扣*/
+   public Double selectDiscountByServicegradename(String servicegradename);
+-->
+  <select id="selectDiscountByServicegradename" resultMap="BaseResultMap"  parameterType="String">
+       select * from tbl_servicegrade where tbl_servicegrade.servicegradename=#{param}
+   </select>
 </mapper>

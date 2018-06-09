@@ -5,26 +5,11 @@
     <id column="districtid" property="districtid" jdbcType="INTEGER" />
     <result column="districtname" property="districtname" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    districtid, districtname
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tbl_district
-    where districtid = #{districtid,jdbcType=INTEGER}
+  <!--/*根据区名查区id*/
+    public District selectDistrictByDistricName(@Param("districname") String districname);-->
+  <select id="selectDistrictByDistricName" resultMap="BaseResultMap" parameterType="String">
+    select * from tbl_district where tbl_district.districtname=#{districtname}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tbl_district
-    where districtid = #{districtid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="pluto.entity.District" >
-    insert into tbl_district (districtid, districtname)
-    values (#{districtid,jdbcType=INTEGER}, #{districtname,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="pluto.entity.District" >
-    update tbl_district
-    set districtname = #{districtname,jdbcType=VARCHAR}
-    where districtid = #{districtid,jdbcType=INTEGER}
-  </update>
+
+
 </mapper>
